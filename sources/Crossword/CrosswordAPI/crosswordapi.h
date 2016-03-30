@@ -7,11 +7,13 @@ class CrosswordAPI
 
 public:
     //размер поля
-    void field_size();
+    void field_size(int x, int y);
     //добавить слово
-    void add_word();
+    bool add_word(char add_word);
     //удалить слово
-    void delete_word();
+    bool delete_word(char delete_word);
+    //создать кроссворд
+    void create();
 };
 
 #endif // CROSSWORDAPI_H
