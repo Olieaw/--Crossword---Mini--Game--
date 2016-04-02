@@ -6,14 +6,15 @@ class CrosswordAPI
 {
 
 public:
+
     //размер поля
-    void field_size(int x, int y);
+    void FieldSize(int x, int y);
     //добавить слово
-    bool add_word(char add_word);
+    bool AddWord(char add_word);
     //удалить слово
-    bool delete_word(char delete_word);
+    bool DeleteWord(char delete_word);
     //создать кроссворд
-    void create();
+    void Create();
 };
 
 #endif // CROSSWORDAPI_H

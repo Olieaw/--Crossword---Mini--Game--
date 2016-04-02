@@ -1,5 +1,6 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    CrosswordAPI \
-    Crossword
+    App \
+    Core
+
