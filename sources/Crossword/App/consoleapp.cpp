@@ -1,6 +1,7 @@
 #include "consoleapp.h"
+#include "vocabulary.h"
 
-ConsoleApp::Menu()
+void ConsoleApp::Menu()
 {
     int number_in_menu;
 
@@ -10,7 +11,7 @@ ConsoleApp::Menu()
 
     cin >> number_in_menu;
 
-    if (cin.good())
+    if(cin.good())
     {
         switch (number_in_menu)
         {

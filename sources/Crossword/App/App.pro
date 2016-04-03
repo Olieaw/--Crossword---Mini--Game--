@@ -4,7 +4,9 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += main.cpp \
-    consoleapp.cpp
+    consoleapp.cpp \
+    vocabulary.cpp
 
 HEADERS += \
-    consoleapp.h
+    consoleapp.h \
+    vocabulary.h
