@@ -1,30 +1,89 @@
 #include "workwithvocabulary.h"
 
+WorkWithVocabulary::WorkWithVocabulary(const WorkWithVocabulary &src)
+{
+    size = 0;
+    first = last = NULL;
+    AddLast(src);
+}
 
 WorkWithVocabulary::~WorkWithVocabulary()
 {
-    while (Head != 0) {
-        Vocabulary *temp = Head->Next;
-        delete Head;
-        Head = temp;
-    }
+   Vocabulary *current = NULL;
+   Vocabulary *next = first;
+   while(next)
+   {
+       current = next;
+       next =next->next;
+       delete current;
+   }
 }
 
-void WorkWithVocabulary::Add(int numer)
+void WorkWithVocabulary::AddLast(const WorkWithVocabulary &src)
 {
-    Vocabulary *temp = new(Vocabulary);
-    temp->numer = numer;
-    temp->Next = Head;
-    Head = temp;
+    for(Vocabulary *cur = src.first; cur; cur = cur->next)
+    AddLast(cur->numer);
 }
 
-void WorkWithVocabulary::Show()
+void WorkWithVocabulary::AddLast(int numer)
 {
-    Vocabulary *temp = Head;
-
-    while(temp != 0)
+    Vocabulary *newItem = new Vocabulary(numer);
+    if (!last)
     {
-        cout<<temp->numer<<""<<endl;
-        temp = temp->Next;
+        first = newItem;
     }
+    else
+    {
+        last->next = newItem;
+    }
+    last = newItem;
+    size++;
+}
+
+int WorkWithVocabulary::RemoveFirst()
+{
+    int res = first->numer;
+    first = first->next;
+    size--;
+    return res;
+}
+
+bool WorkWithVocabulary::Remove(int value)
+{
+    Vocabulary *prev = 0, *current = first;
+    while (current)
+    {
+        if (current->numer == value)
+        {
+            if(prev)
+            {
+                prev->next = current->next;
+            }
+            if(current == last)
+            {
+                last = prev;
+            }
+            delete current;
+            size--;
+            return true;
+        }
+        else
+        {
+            prev =current;
+            current = current->next;
+        }
+    }
+    return false;
+}
+
+string WorkWithVocabulary::GetAllItemInfo()
+{
+    stringstream stream;
+    Vocabulary *current = first;
+    while (current)
+    {
+        stream<<current->numer<<endl;
+        current = current->next;
+    }
+    return stream.str();
 }

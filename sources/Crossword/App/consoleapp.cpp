@@ -3,14 +3,15 @@
 
 void ConsoleApp::Menu()
 {
-    WorkWithVocabulary *add = new WorkWithVocabulary;
+    WorkWithVocabulary add;
     ConsoleApp app;
     int number_in_menu;
     int word;
 
     cout << "1. Add word" << endl
          << "2. Delete word(does not work)" << endl
-         << "0. Exit" << endl;
+         << "0. Exit" << endl
+         << ">>> ";
 
     cin >> number_in_menu;
 
@@ -20,16 +21,15 @@ void ConsoleApp::Menu()
         {
         case 0:
             break;
-        case 1:         
-            cin>>word;
-            if (cin.good())
-            {
-                add->Add(word);
-                add->Show();
-                app.Menu();
-            }
+        case 1:
+            cout<<"Print word"<<endl;
+            //cin>>word;
+            add.AddLast(1);
+            add.AddLast(2);
+            add.AddLast(3);
+            cout<<add.GetAllItemInfo();
+            app.Menu();
             break;
-
         default:
             cout << "Something goes wrong!" << endl;
             cin.clear();

@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <sstream>
 
 using namespace std;
 
@@ -12,14 +13,37 @@ class WorkWithVocabulary
     {
         //char word[20];
         int numer;
-        Vocabulary *Next;
+        Vocabulary *next;
+
+        Vocabulary(int num, Vocabulary *n = NULL)
+        {
+            numer = num;
+            next = n;
+        }
     };
-    Vocabulary *Head;
+    int size;
+    Vocabulary *first;
+    Vocabulary *last;
 public:
-    WorkWithVocabulary(){Head = 0;}
+    WorkWithVocabulary()
+    {
+       size = 0;
+       first = last = NULL;
+    }
+
     ~WorkWithVocabulary();
-    void Add(int numer);
-    void Show();
+
+    WorkWithVocabulary(const WorkWithVocabulary & src);
+
+    void AddLast(const WorkWithVocabulary &src);
+
+    void AddLast(int numer);
+
+    int RemoveFirst();
+
+    bool Remove(int value);
+
+    string GetAllItemInfo();
 };
 
 #endif // WORKWITHVOCABULARY_H
