@@ -1,13 +1,18 @@
 #include "consoleapp.h"
 #include "workwithvocabulary.h"
+#include "logic.h"
 
 void ConsoleApp::Menu()
 {
-    WorkWithVocabulary *add = new WorkWithVocabulary;
-    int number_in_menu;
-    int word;
+    Logic r;
+    r.Read();
+    r.Print();
+    r.If();
 
-    while(1){
+
+
+
+    /*while(1){
         cout << "1. Add word" << endl
              << "2. Delete word" << endl
              << "3. Insert element" <<endl
@@ -23,21 +28,16 @@ void ConsoleApp::Menu()
                 return;
                 break;
             case 1:
-                cout<<"Print word"<<endl;
-                add->AddLast(4353);add->AddLast(542);add->AddLast(9461);add->AddLast(8764);
-                cin>>word;
-                add->AddLast(word);
+
                 break;
             case 2:
-                cin>>word;
-                add->Remove(word);
+
                 break;
             case 3:
-                cout<< "------------------------" << endl
-                    << endl
-                    << add->GetAllItemInfo()
-                    << endl
-                    << "------------------------" << endl;
+
+                break;
+            case 4:
+
                 break;
             default:
                 cout << "Something goes wrong!" << endl;
@@ -53,5 +53,5 @@ void ConsoleApp::Menu()
             cout << endl;
             Menu();
         }
-    }
+    }*/
 }

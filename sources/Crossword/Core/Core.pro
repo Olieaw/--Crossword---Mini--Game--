@@ -11,10 +11,12 @@ TEMPLATE = lib
 CONFIG += staticlib
 
 SOURCES += \
-    workwithvocabulary.cpp
+    workwithvocabulary.cpp \
+    logic.cpp
 
 HEADERS += \
-    workwithvocabulary.h
+    workwithvocabulary.h \
+    logic.h
 unix {
     target.path = /usr/lib
     INSTALLS += target

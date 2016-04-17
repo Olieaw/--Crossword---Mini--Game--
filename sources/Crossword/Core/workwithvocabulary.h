@@ -33,13 +33,7 @@ public:
 
     ~WorkWithVocabulary();
 
-    WorkWithVocabulary(const WorkWithVocabulary & src);
-
-    void AddLast(const WorkWithVocabulary &src);
-
     void AddLast(int numer);
-
-    int RemoveFirst();
 
     bool Remove(int value);
 
