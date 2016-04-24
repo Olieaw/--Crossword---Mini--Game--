@@ -12,11 +12,11 @@ CONFIG += staticlib
 
 SOURCES += \
     workwithvocabulary.cpp \
-    logic.cpp
+    field.cpp
 
 HEADERS += \
     workwithvocabulary.h \
-    logic.h
+    field.h
 unix {
     target.path = /usr/lib
     INSTALLS += target

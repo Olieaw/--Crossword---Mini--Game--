@@ -12,9 +12,9 @@ WorkWithVocabulary::~WorkWithVocabulary()
    }
 }
 
-void WorkWithVocabulary::AddLast(int numer)
+void WorkWithVocabulary::AddLast(char *word)
 {
-    Vocabulary *newItem = new Vocabulary(numer);
+    Vocabulary *newItem = new Vocabulary(word);
     if (!last)
     {
         first = newItem;
@@ -27,12 +27,12 @@ void WorkWithVocabulary::AddLast(int numer)
     size++;
 }
 
-bool WorkWithVocabulary::Remove(int value)
+bool WorkWithVocabulary::Remove(char *value)
 {
     Vocabulary *prev = 0, *current = first;
     while (current)
     {
-        if (current->numer == value)
+        if (!strcmp(current->word,value))
         {
             if(prev)
             {
@@ -59,14 +59,14 @@ bool WorkWithVocabulary::Remove(int value)
     return false;
 }
 
-string WorkWithVocabulary::GetAllItemInfo()
+void WorkWithVocabulary::GetAllItemInfo()
 {
-    stringstream stream;
+
     Vocabulary *current = first;
     while (current)
     {
-        stream<<current->numer<<endl;
+        cout<<current->word<<endl;
         current = current->next;
     }
-    return stream.str();
+
 }

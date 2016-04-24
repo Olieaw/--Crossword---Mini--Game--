@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <string>
-#include <sstream>
+#include <cstring>
 
 using namespace std;
 
@@ -11,13 +11,13 @@ class WorkWithVocabulary
 {
     struct Vocabulary
     {
-        //char word[20];
-        int numer;
+        char word[20];
         Vocabulary *next;
 
-        Vocabulary(int num, Vocabulary *n = NULL)
+        Vocabulary(char w[20], Vocabulary *n = NULL)
         {
-            numer = num;
+            for(int i = 0;i < 20; i++)
+                word[i] = w[i];
             next = n;
         }
     };
@@ -33,11 +33,11 @@ public:
 
     ~WorkWithVocabulary();
 
-    void AddLast(int numer);
+    void AddLast(char *word);
 
-    bool Remove(int value);
+    bool Remove(char *value);
 
-    string GetAllItemInfo();
+    void GetAllItemInfo();
 };
 
 #endif // WORKWITHVOCABULARY_H
