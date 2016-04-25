@@ -34,9 +34,9 @@ public:
     ~WorkWithVocabulary();
 
     void AddLast(char *word);
-
     bool Remove(char *value);
 
+    void Generation(int size);
     void GetAllItemInfo();
 };
 

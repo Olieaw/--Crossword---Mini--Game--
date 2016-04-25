@@ -21,7 +21,6 @@ void Field::AddInformation(int x, int y, int length, bool orientation, char *wor
         last->next = newItem;
     }
     last = newItem;
-    size++;
 }
 
 void Field::GetAllItemInfo()
@@ -40,75 +39,108 @@ void Field::GetAllItemInfo()
 
 }
 
-/*int Field::If(char *word, char *word2)
+void Field::AddOccupiedLetter(int x, int y)
 {
-    int sizeWord = strlen(word);
-    int sizeWord2 = strlen(word2);
-
-    for(int num = 0; num < sizeWord; num++)
-        for(int num2 = 0; num2 < sizeWord2; num2++)
-            if(word[num] == word2[num2] && strcmp(word,word2) != 0)
-            {
-                return num;
-            }
-}*/
-
-void Field::PrintWord(int size, char *word)
-{
-    Information *current = first;
-    int sizeWord = strlen(word);
-
-    for(int i = 0; i < size; i++)
+    OccupiedLetter *newItem = new OccupiedLetter(x, y);
+    if(!last_OcLet)
     {
+        first_OcLet = newItem;
+    }
+    else
+    {
+        last_OcLet->next = newItem;
+    }
+    last_OcLet = newItem;
+}
+
+void Field::InfoOccupiedLetter()
+{
+    OccupiedLetter *current = first_OcLet;
+    while(current)
+    {
+        cout<<current->x<<" "<<current->y<<endl;
+        current = current->next;
+    }
+}
+
+void Field::FirstWordVerification(int size, char *word)
+{ 
+    for(int i = 0; i < size; i++)
         for(int j = 0; j < size; j++)
             if(field[i][j] == *"*") //
             {
                 if((i + 1) == size && (j + 1) == size)
                 {
-                    for(int numElem = 0; numElem < sizeWord; numElem++)
-                    {
-                        field[size / 2][size / 2 + numElem - (sizeWord / 2)] = word[numElem];
-                    }
-                    AddInformation(size / 2 - (sizeWord / 2), size / 2, sizeWord, false , word);
+                    this->PrintFirstWord(size, word);
                 }
             }
             else
             {
-                while (current)
+                this->PrintNextWords(word);
+                return;
+            }
+}
+
+void Field::PrintFirstWord(int size, char *word)
+{
+    int sizeWord = strlen(word);
+    for(int i = 0; i < sizeWord; i++)
+    {
+        field[size / 2][size / 2 + i - (sizeWord / 2)] = word[i];
+    }
+    AddInformation(size / 2 - (sizeWord / 2), size / 2, sizeWord, false , word);
+}
+
+void Field::PrintNextWords(char *word)
+{
+    Information *current = first;
+    OccupiedLetter *cur = first_OcLet;
+    int sizeWord = strlen(word);
+
+    while (current)
+    {
+        for(int i = 0; i < current->length; i++)
+            for(int j = 0; j < sizeWord; j++)
+            {
+                if(current->word[i] == word[j] && current->word != word)
                 {
-                    for(int numElem = 0; numElem < current->length; numElem++)
-                        for(int numElem2 = 0; numElem2 < sizeWord; numElem2++)
+                    while(cur)
+                        if((cur->x != current->x + i) && (cur->y != current->y + j))
+                        { cur = cur->next; }
+                        else
+                        { return; }
+
+                    if(current->orientation == false)
+                    {
+                        for(int elem = 0; elem < sizeWord; elem++)
                         {
-                            if(current->word[numElem] == word[numElem2]  && current->word != word)
-                            {
-                                if(current->orientation == false)
-                                {
-                                    for(int elem = 0; elem < sizeWord; elem++)
-                                    {
-                                        field[current->y - numElem2 +elem][current->x + numElem] = word[elem];
-                                    }
-
-                                    AddInformation(current->x + numElem, current->y - numElem2, sizeWord, true, word);
-                                }
-                                else
-                                {
-                                    for(int elem = 0; elem < sizeWord; elem++)
-                                    {
-                                        field[current->y + numElem][current->x - numElem2 + elem] = word[elem];
-                                    }
-
-                                    AddInformation(current->x - numElem2, current->y + numElem, sizeWord, false, word);
-                                }
-                                return;
-                            }
+                            field[current->y - j +elem][current->x + i] = word[elem];
                         }
-                    current = current->next;
+
+                        AddInformation(current->x + i, current->y - j, sizeWord, true, word);
+                        AddOccupiedLetter(current->x + i, current->y);
+
+                    }
+                    else
+                    {
+                        for(int elem = 0; elem < sizeWord; elem++)
+                        {
+                            field[current->y + i][current->x - j + elem] = word[elem];
+                        }
+
+                        AddInformation(current->x - j, current->y + i, sizeWord, false, word);
+                        AddOccupiedLetter(current->x, current->y + i);
+
+                    }
+                    return;
+
                 }
             }
+        current = current->next;
     }
 }
 
-void Field::Print(int size)
+void Field::PrintField(int size)
 {
     for(int i = 0; i < size; i++)
     {

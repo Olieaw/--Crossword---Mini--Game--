@@ -1,4 +1,5 @@
 #include "workwithvocabulary.h"
+#include "field.h"
 
 WorkWithVocabulary::~WorkWithVocabulary()
 {
@@ -59,9 +60,21 @@ bool WorkWithVocabulary::Remove(char *value)
     return false;
 }
 
+void WorkWithVocabulary::Generation(int size)
+{
+    Field *gener = new Field;
+    Vocabulary *current = first;
+    gener->NewField(size);
+    while (current)
+    {
+        gener->FirstWordVerification(size, current->word);
+        current = current->next;
+    }
+    gener->PrintField(size);
+}
+
 void WorkWithVocabulary::GetAllItemInfo()
 {
-
     Vocabulary *current = first;
     while (current)
     {

@@ -39,18 +39,37 @@ class Field
 
     };
 
-    int size;
     Information *first;
     Information *last;
+
+    struct OccupiedLetter
+    {
+        int x, y;
+        OccupiedLetter *next;
+
+        OccupiedLetter(int x_, int y_)
+        {
+            x = x_;
+            y = y_;
+        }
+    };
+
+    OccupiedLetter *first_OcLet;
+    OccupiedLetter *last_OcLet;
+
 public:
 
     void AddInformation(int x, int y, int length, bool orientation, char *word);
     void GetAllItemInfo();
 
+    void AddOccupiedLetter(int x, int y);
+    void InfoOccupiedLetter();
+
     void NewField(int size);
-    int If(char *word, char *word2);
-    void PrintWord(int size, char *word);
-    void Print(int size);
+    void FirstWordVerification(int size, char *word);
+    void PrintFirstWord(int size, char *word);
+    void PrintNextWords(char *word);
+    void PrintField(int size);
 };
 
 #endif // FIELD_H
