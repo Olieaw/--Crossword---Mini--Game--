@@ -8,7 +8,9 @@ void ConsoleApp::Menu()
     int num = 0;
     WorkWithVocabulary *add = new WorkWithVocabulary;
     int number_in_menu = 0;
+    //todo не использовать сишные массивы
     char word[size];
+    //todo while (1) не хорошо, бесконечный цикл не круто.
     while(1){
         cout << "1. Add word" << endl
              << "2. Delete word" << endl
@@ -52,6 +54,7 @@ void ConsoleApp::Menu()
                 break;
             default:
                 cout << "Something goes wrong!" << endl;
+                //todo зачем очищать cin от флгов?
                 cin.clear();
                 cout << endl;
                 break;
@@ -62,6 +65,7 @@ void ConsoleApp::Menu()
             cout << "Error! Input a number." << endl;
             cin.clear();
             cout << endl;
+            //todo рекурсия в бесконечном цикле? А вы любите рисковать!
             Menu();
         }
     }

@@ -6,19 +6,26 @@
 #include <string>
 #include <cstring>
 
+//todo не использовать using namespace
 using namespace std;
 
+//todo лучше не делать самдоельые списки, а использовать стандартную бибилиотеку
 class Field
 {
+    //todo не использовтаь сишные массивы
     char field[20][20];
+
+    //todo лучше сделать классом
 
     struct Information
     {
         int x,y;
         int length;
+        //todo не использовтаь сишные массивы
+        //todo использовать строки string, а не массивы символов
         char word[20];
         bool orientation; //false - горизонтальное, true - вертикальное
-
+        //todo вынести определение структуры за класс
         struct occupiedLetter
         {
             int x, y;
@@ -26,6 +33,7 @@ class Field
 
         Information *next;
 
+        //todo использовать списки инициализации
         Information(int x_, int y_, int length_, char w[20], bool orient = false, Information *n = NULL)
         {
             x = x_;
@@ -42,11 +50,12 @@ class Field
     Information *first;
     Information *last;
 
+    //todo вынести определение структуры за класс
     struct OccupiedLetter
     {
         int x, y;
         OccupiedLetter *next;
-
+        //todo использовать списки инициализации
         OccupiedLetter(int x_, int y_)
         {
             x = x_;
@@ -64,8 +73,8 @@ public:
 
     void AddOccupiedLetter(int x, int y);
     void InfoOccupiedLetter();
-
-    void NewField(int size);
+    //todo лучше исопльзовать глалголы для названия методов
+    void NewField(int size); //createNewField например
     void FirstWordVerification(int size, char *word);
     void PrintFirstWord(int size, char *word);
     void PrintNextWords(char *word);

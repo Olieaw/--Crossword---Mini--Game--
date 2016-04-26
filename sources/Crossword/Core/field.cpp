@@ -27,6 +27,7 @@ void Field::GetAllItemInfo()
 {
 
     Information *current = first;
+    //todo не использовать вывод в консоль в бизнес логике
     while (current)
     {
         cout<<current->x<<" ";
@@ -56,6 +57,7 @@ void Field::AddOccupiedLetter(int x, int y)
 void Field::InfoOccupiedLetter()
 {
     OccupiedLetter *current = first_OcLet;
+    //todo не использовать вывод в консоль в бизнес логике
     while(current)
     {
         cout<<current->x<<" "<<current->y<<endl;
@@ -109,7 +111,7 @@ void Field::PrintNextWords(char *word)
                         { cur = cur->next; }
                         else
                         { return; }
-
+                    //todo не обязательно писать == false
                     if(current->orientation == false)
                     {
                         for(int elem = 0; elem < sizeWord; elem++)
