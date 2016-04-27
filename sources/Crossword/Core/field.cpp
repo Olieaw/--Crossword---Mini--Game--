@@ -5,6 +5,7 @@ void Field::NewField(int size)
     for(int i = 0; i < size; i++)
     {
         for(int j = 0; j < size; j++)
+            //todo это разименование символа? зачем?
             field[i][j] = *"*"; //
     }
 }
@@ -69,7 +70,7 @@ void Field::FirstWordVerification(int size, char *word)
 { 
     for(int i = 0; i < size; i++)
         for(int j = 0; j < size; j++)
-            if(field[i][j] == *"*") //
+            if(field[i][j] == *"*") //todo это разименование символа?
             {
                 if((i + 1) == size && (j + 1) == size)
                 {
@@ -142,6 +143,7 @@ void Field::PrintNextWords(char *word)
     }
 }
 
+//todo в ядре не должно быть вывода в консоль
 void Field::PrintField(int size)
 {
     for(int i = 0; i < size; i++)

@@ -61,7 +61,7 @@ bool WorkWithVocabulary::Remove(char *value)
 }
 
 void WorkWithVocabulary::Generation(int size)
-{
+{   //todo gener - не очень хорошее название для пременной
     Field *gener = new Field;
     Vocabulary *current = first;
     gener->NewField(size);

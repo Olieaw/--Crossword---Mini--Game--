@@ -13,10 +13,10 @@ using namespace std;
 class Field
 {
     //todo не использовтаь сишные массивы
+    //todo что за магические числа?
     char field[20][20];
 
     //todo лучше сделать классом
-
     struct Information
     {
         int x,y;
@@ -34,6 +34,7 @@ class Field
         Information *next;
 
         //todo использовать списки инициализации
+        //todo использовать nullptr а не NULL
         Information(int x_, int y_, int length_, char w[20], bool orient = false, Information *n = NULL)
         {
             x = x_;
@@ -68,6 +69,7 @@ class Field
 
 public:
 
+    //todo может, лучше сделать констурктор и передовать туда всю информацию
     void AddInformation(int x, int y, int length, bool orientation, char *word);
     void GetAllItemInfo();
 
