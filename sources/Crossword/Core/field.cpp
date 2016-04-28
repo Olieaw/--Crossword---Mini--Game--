@@ -107,6 +107,7 @@ void Field::PrintNextWords(char *word)
             {
                 if(current->word[i] == word[j] && current->word != word)
                 {
+                    // что такое cur?
                     while(cur)
                         if((cur->x != current->x + i) && (cur->y != current->y + j))
                         { cur = cur->next; }
