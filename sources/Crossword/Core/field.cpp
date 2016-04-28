@@ -83,6 +83,7 @@ void Field::FirstWordVerification(int size, char *word)
             }
 }
 
+//todo метод добавляет только первое слово? почему нельзя все слова добавлять одним методом?
 void Field::PrintFirstWord(int size, char *word)
 {
     int sizeWord = strlen(word);
