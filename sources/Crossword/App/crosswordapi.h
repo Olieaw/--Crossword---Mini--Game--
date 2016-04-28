@@ -20,7 +20,7 @@ public:
     //todo использовать string, а не сишные строки
     bool DeleteWord(char delete_word);
     //создать кроссворд
-    //todo может лучше определить конструктор?
+    //todo может быть, createCrossword?
     void Create();
 };
 
