@@ -2,6 +2,7 @@
 #include "workwithvocabulary.h"
 #include "field.h"
 
+//todo попробовать разбить метод на более мелкие
 void ConsoleApp::Menu()
 {
     const int size = 20;
