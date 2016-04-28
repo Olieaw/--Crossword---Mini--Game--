@@ -1,7 +1,6 @@
 #ifndef FIELD_H
 #define FIELD_H
 
-
 #include <iostream>
 #include <string>
 #include <cstring>
@@ -9,7 +8,7 @@
 //todo не использовать using namespace
 using namespace std;
 
-//todo лучше не делать самдоельые списки, а использовать стандартную бибилиотеку
+//todo лучше не делать самдоельные списки, а использовать стандартную бибилиотеку
 class Field
 {
     //todo не использовтаь сишные массивы
@@ -17,15 +16,18 @@ class Field
     char field[20][20];
 
     //todo лучше сделать классом
+    //todo информация о чем? переименовать
     struct Information
     {
+        //todo пары координат лучше хранить в отдельным классе или структуре и с ними работать
         int x,y;
         int length;
         //todo не использовтаь сишные массивы
         //todo использовать строки string, а не массивы символов
         char word[20];
+        //todo лучше использовать enum со зачением HORIZONTAL и VERTICAL, что нибудь такого плана
         bool orientation; //false - горизонтальное, true - вертикальное
-        //todo вынести определение структуры за класс
+        //todo пары координат лучше хранить в отдельным классе и структуру можно будет заменить экземпляром того класса
         struct occupiedLetter
         {
             int x, y;
@@ -40,7 +42,8 @@ class Field
             x = x_;
             y = y_;
             length = length_;
-            for(int i = 0;i < 20; i++)
+            //todo обязательно длина слова 20 символов? Зачем все 20 копировать? И опять магические числа.
+            for(int i = 0; i < 20; i++)
                 word[i] = w[i];
             orientation = orient;
             next = n;
@@ -51,7 +54,8 @@ class Field
     Information *first;
     Information *last;
 
-    //todo вынести определение структуры за класс
+    //todo вынести определение структуры за класс и почему у нее такое же название что и occupiedLetter и что опятьза самодельные списки?
+    //std::list<OccupiedLetter> и иттерироваться по нему
     struct OccupiedLetter
     {
         int x, y;
@@ -69,16 +73,23 @@ class Field
 
 public:
 
-    //todo может, лучше сделать констурктор и передовать туда всю информацию
+
+    //todo почему бы не предавать информацию объектом
+    //AddInformation(Information &info);
+    //todo использовать строки string
     void AddInformation(int x, int y, int length, bool orientation, char *word);
     void GetAllItemInfo();
 
     void AddOccupiedLetter(int x, int y);
     void InfoOccupiedLetter();
+    //todo может, лучше сделать констурктор
     //todo лучше исопльзовать глалголы для названия методов
     void NewField(int size); //createNewField например
+    //todo использовать строки string
     void FirstWordVerification(int size, char *word);
+    //todo использовать строки string
     void PrintFirstWord(int size, char *word);
+    //todo использовать строки string
     void PrintNextWords(char *word);
     void PrintField(int size);
 };
