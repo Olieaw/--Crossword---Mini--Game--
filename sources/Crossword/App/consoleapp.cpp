@@ -22,7 +22,7 @@ void ConsoleApp::Menu()
              << "0. Exit" << endl
              << "-> ";
 
-        //todo сделать безопассный ввод (головой кататься)
+        //todo сделать безопасный ввод (головой кататься)
         cin >> number_in_menu;
         if(cin.good())
         {
@@ -59,7 +59,7 @@ void ConsoleApp::Menu()
                 break;
             default:
                 cout << "Something goes wrong!" << endl;
-                //todo зачем очищать cin от флгов?
+                //todo зачем очищать cin от флагов?
                 cin.clear();
                 cout << endl;
                 break;
