@@ -65,6 +65,7 @@ void Field::InfoOccupiedLetter()
     }
 }
 
+//todo длину си-строки можно узнать методом strlen(char*), можно не передавать ее в метод
 void Field::FirstWordVerification(int size, char *word)
 { 
     for(int i = 0; i < size; i++)
