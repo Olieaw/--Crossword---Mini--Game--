@@ -6,6 +6,8 @@ void ConsoleApp::Menu()
 {
     const int size = 20;
     int num = 0;
+    //todo память выделяется и не очищается
+    //todo переименовать переменную
     WorkWithVocabulary *add = new WorkWithVocabulary;
     int number_in_menu = 0;
     //todo не использовать сишные массивы
@@ -19,6 +21,7 @@ void ConsoleApp::Menu()
              << "0. Exit" << endl
              << "-> ";
 
+        //todo сделать безопассный ввод (головой кататься)
         cin >> number_in_menu;
         if(cin.good())
         {
@@ -36,6 +39,7 @@ void ConsoleApp::Menu()
             case 2:
                 cout<<"Print word"<<endl;
                 cin>>word;
+                    //todo не обязательно писать == true
                 if(add->Remove(word)==true)
                     cout<<"Delete word"<<endl;
                 else

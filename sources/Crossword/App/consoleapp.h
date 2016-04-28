@@ -7,6 +7,7 @@
 #include <fstream>
 #include <cstring>
 
+//todo плохой тон использовать using namespace std
 using namespace std;
 
 class ConsoleApp

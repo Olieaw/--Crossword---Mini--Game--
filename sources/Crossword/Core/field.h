@@ -92,6 +92,8 @@ public:
     //todo использовать строки string
     void PrintNextWords(char *word);
     void PrintField(int size);
+
+    //todo где деструктор?
 };
 
 #endif // FIELD_H

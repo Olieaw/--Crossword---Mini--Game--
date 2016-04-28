@@ -17,8 +17,10 @@ public:
     //todo использовать string, а не сишные строки
     bool AddWord(char add_word);
     //удалить слово
+    //todo использовать string, а не сишные строки
     bool DeleteWord(char delete_word);
     //создать кроссворд
+    //todo может лучше определить конструктор?
     void Create();
 };
 

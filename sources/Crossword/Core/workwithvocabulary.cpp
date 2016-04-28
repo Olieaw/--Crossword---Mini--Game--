@@ -78,6 +78,7 @@ void WorkWithVocabulary::GetAllItemInfo()
     Vocabulary *current = first;
     while (current)
     {
+        //todo в ядре не должно быть вывода в консоль
         cout<<current->word<<endl;
         current = current->next;
     }

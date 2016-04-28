@@ -19,8 +19,8 @@ class WorkWithVocabulary
         //todo и магических чисел
         char word[20];
         Vocabulary *next;
-        //todo сhar w[20] это еще что? char*
         //todo использовать nullptr
+        //todo сhar w[20] это еще что? char*
         Vocabulary(char w[20], Vocabulary *n = NULL)
         {
             for(int i = 0;i < 20; i++)
