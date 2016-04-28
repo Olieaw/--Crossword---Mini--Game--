@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+//todo зачем #include <fstream>? у вас же нет работы с файлами
 #include <fstream>
 #include <cstring>
 
