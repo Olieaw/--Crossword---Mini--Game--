@@ -9,7 +9,6 @@ void Field::NewField(int size)
             field[i][j] = *"*"; //
     }
 }
-
 void Field::AddInformation(int x, int y, int length, bool orientation, char *word)
 {
     Information *newItem = new Information(x, y, length, word, orientation);
