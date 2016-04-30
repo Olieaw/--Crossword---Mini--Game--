@@ -2,13 +2,18 @@
 #include "workwithvocabulary.h"
 #include "field.h"
 
+//todo попробовать разбить метод на более мелкие
 void ConsoleApp::Menu()
 {
     const int size = 20;
     int num = 0;
+    //todo память выделяется и не очищается
+    //todo переименовать переменную
     WorkWithVocabulary *add = new WorkWithVocabulary;
     int number_in_menu = 0;
+    //todo не использовать сишные массивы
     char word[size];
+    //todo while (1) не хорошо, бесконечный цикл не круто.
     while(1){
         cout << "1. Add word" << endl
              << "2. Delete word" << endl
@@ -17,6 +22,7 @@ void ConsoleApp::Menu()
              << "0. Exit" << endl
              << "-> ";
 
+        //todo сделать безопасный ввод (головой кататься)
         cin >> number_in_menu;
         if(cin.good())
         {
@@ -34,6 +40,7 @@ void ConsoleApp::Menu()
             case 2:
                 cout<<"Print word"<<endl;
                 cin>>word;
+                    //todo не обязательно писать == true
                 if(add->Remove(word)==true)
                     cout<<"Delete word"<<endl;
                 else
@@ -52,6 +59,7 @@ void ConsoleApp::Menu()
                 break;
             default:
                 cout << "Something goes wrong!" << endl;
+                //todo зачем очищать cin от флагов?
                 cin.clear();
                 cout << endl;
                 break;
@@ -62,6 +70,7 @@ void ConsoleApp::Menu()
             cout << "Error! Input a number." << endl;
             cin.clear();
             cout << endl;
+            //todo рекурсия в бесконечном цикле? А вы любите рисковать!
             Menu();
         }
     }

@@ -5,10 +5,10 @@ void Field::NewField(int size)
     for(int i = 0; i < size; i++)
     {
         for(int j = 0; j < size; j++)
+            //todo это разименование символа? зачем?
             field[i][j] = *"*"; //
     }
 }
-
 void Field::AddInformation(int x, int y, int length, bool orientation, char *word)
 {
     Information *newItem = new Information(x, y, length, word, orientation);
@@ -27,6 +27,7 @@ void Field::GetAllItemInfo()
 {
 
     Information *current = first;
+    //todo не использовать вывод в консоль в бизнес логике
     while (current)
     {
         cout<<current->x<<" ";
@@ -56,6 +57,7 @@ void Field::AddOccupiedLetter(int x, int y)
 void Field::InfoOccupiedLetter()
 {
     OccupiedLetter *current = first_OcLet;
+    //todo не использовать вывод в консоль в бизнес логике
     while(current)
     {
         cout<<current->x<<" "<<current->y<<endl;
@@ -63,11 +65,12 @@ void Field::InfoOccupiedLetter()
     }
 }
 
+//todo длину си-строки можно узнать методом strlen(char*), можно не передавать ее в метод
 void Field::FirstWordVerification(int size, char *word)
 { 
     for(int i = 0; i < size; i++)
         for(int j = 0; j < size; j++)
-            if(field[i][j] == *"*") //
+            if(field[i][j] == *"*") //todo это разименование символа?
             {
                 if((i + 1) == size && (j + 1) == size)
                 {
@@ -81,6 +84,7 @@ void Field::FirstWordVerification(int size, char *word)
             }
 }
 
+//todo метод добавляет только первое слово? почему нельзя все слова добавлять одним методом?
 void Field::PrintFirstWord(int size, char *word)
 {
     int sizeWord = strlen(word);
@@ -104,12 +108,13 @@ void Field::PrintNextWords(char *word)
             {
                 if(current->word[i] == word[j] && current->word != word)
                 {
+                    // что такое cur?
                     while(cur)
                         if((cur->x != current->x + i) && (cur->y != current->y + j))
                         { cur = cur->next; }
                         else
                         { return; }
-
+                    //todo не обязательно писать == false
                     if(current->orientation == false)
                     {
                         for(int elem = 0; elem < sizeWord; elem++)
@@ -140,6 +145,7 @@ void Field::PrintNextWords(char *word)
     }
 }
 
+//todo в ядре не должно быть вывода в консоль
 void Field::PrintField(int size)
 {
     for(int i = 0; i < size; i++)
