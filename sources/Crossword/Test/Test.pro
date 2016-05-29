@@ -1,17 +1,22 @@
+#-------------------------------------------------
+#
+# Project created by QtCreator 2016-05-08T15:29:47
+#
+#-------------------------------------------------
+
+QT       += testlib
+
+QT       -= gui
+
+TARGET = tst_testtest
+CONFIG   += console
+CONFIG   -= app_bundle
+
 TEMPLATE = app
-CONFIG += console c++11
-CONFIG -= app_bundle
-CONFIG -= qt
 
 
-SOURCES += main.cpp \
-    consoleapp.cpp \
-    outputconsole.cpp \
-    consoleplaingfield.cpp
-
-HEADERS += \
-    consoleapp.h \
-    consoleplaingfield.h
+SOURCES += tst_testtest.cpp
+DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../Core/release/ -lCore
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../Core/debug/ -lCore

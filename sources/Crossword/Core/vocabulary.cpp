@@ -1,7 +1,6 @@
-#include "workwithvocabulary.h"
-#include "field.h"
+#include "vocabulary.h"
 
-WorkWithVocabulary::~WorkWithVocabulary()
+Vocabulary::~Vocabulary()
 {
    Vocabulary *current = NULL;
    Vocabulary *next = first;
@@ -13,7 +12,7 @@ WorkWithVocabulary::~WorkWithVocabulary()
    }
 }
 
-void WorkWithVocabulary::AddLast(char *word)
+void Vocabulary::AddWord(std::string word)
 {
     Vocabulary *newItem = new Vocabulary(word);
     if (!last)
@@ -28,12 +27,12 @@ void WorkWithVocabulary::AddLast(char *word)
     size++;
 }
 
-bool WorkWithVocabulary::Remove(char *value)
+bool Vocabulary::Remove(std::string word)
 {
     Vocabulary *prev = 0, *current = first;
     while (current)
     {
-        if (!strcmp(current->word,value))
+        if (!current->word.compare(word))
         {
             if(prev)
             {
@@ -60,27 +59,13 @@ bool WorkWithVocabulary::Remove(char *value)
     return false;
 }
 
-void WorkWithVocabulary::Generation(int size)
-{   //todo gener - не очень хорошее название для пременной
-    Field *gener = new Field;
-    Vocabulary *current = first;
-    gener->NewField(size);
-    while (current)
-    {
-        gener->FirstWordVerification(size, current->word);
-        current = current->next;
-    }
-    gener->PrintField(size);
-}
-
-void WorkWithVocabulary::GetAllItemInfo()
+void Vocabulary::GenerationField()
 {
-    Vocabulary *current = first;
-    while (current)
-    {
-        //todo в ядре не должно быть вывода в консоль
-        cout<<current->word<<endl;
-        current = current->next;
-    }
-
+    Vocabulary *vocabulary = first;
+    Field *field = new Field;
+    while (vocabulary)
+        {
+            field->FirstWordVerification(vocabulary->word);
+            vocabulary = vocabulary->next;
+        }
 }

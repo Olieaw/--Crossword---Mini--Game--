@@ -4,6 +4,7 @@ App.depends = Core
 
 SUBDIRS += \
     App \
-    Core
+    Core \
+    Test
 
 

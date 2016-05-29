@@ -1,17 +1,57 @@
 #include "field.h"
+#include "vocabulary.h"
 
-void Field::NewField(int size)
+Field::Field()
 {
-    for(int i = 0; i < size; i++)
+    sizeInfo = 0;
+    first = last = nullptr;
+    first_OcLet = last_OcLet = nullptr;
+
+    field.resize(sizeField);
+    for(int i = 0; i < sizeField; i++)
     {
-        for(int j = 0; j < size; j++)
-            //todo это разименование символа? зачем?
-            field[i][j] = *"*"; //
+        field[i].resize(sizeField);
+        for(int j = 0; j < sizeField; j++)
+            field[i][j] = "*";
+    }
+
+    playingField.resize(sizeField);
+    for(int i = 0; i < sizeField; i++)
+    {
+        playingField[i].resize(sizeField);
+        for(int j = 0; j < sizeField; j++)
+            playingField[i][j] = "*";
     }
 }
-void Field::AddInformation(int x, int y, int length, bool orientation, char *word)
+
+Field::~Field()
 {
-    Information *newItem = new Information(x, y, length, word, orientation);
+    Information *currentInf = nullptr;
+    Information *nextInf = first;
+    while(nextInf)
+    {
+        currentInf = nextInf;
+        nextInf =nextInf->next;
+        delete currentInf;
+    }
+
+    OccupiedLetter *currentOcLet = nullptr;
+    OccupiedLetter *nextOcLet = first_OcLet;
+    while(currentOcLet)
+    {
+        currentOcLet = nextOcLet;
+        nextOcLet =nextOcLet->next;
+        delete currentOcLet;
+    }
+
+    field.clear();
+    playingField.clear();
+}
+
+void Field::AddInformation(int x, int y, int length, bool orientation, std::string word)
+{
+    sizeInfo++;
+    Information *newItem = new Information(x, y, length, word, sizeInfo, orientation);
     if (!last)
     {
         first = newItem;
@@ -21,23 +61,6 @@ void Field::AddInformation(int x, int y, int length, bool orientation, char *wor
         last->next = newItem;
     }
     last = newItem;
-}
-
-void Field::GetAllItemInfo()
-{
-
-    Information *current = first;
-    //todo не использовать вывод в консоль в бизнес логике
-    while (current)
-    {
-        cout<<current->x<<" ";
-        cout<<current->y<<" ";
-        cout<<current->length<<" ";
-        cout<<current->word<<" ";
-        cout<<current->orientation<<endl;
-        current = current->next;
-    }
-
 }
 
 void Field::AddOccupiedLetter(int x, int y)
@@ -54,27 +77,20 @@ void Field::AddOccupiedLetter(int x, int y)
     last_OcLet = newItem;
 }
 
-void Field::InfoOccupiedLetter()
+void Field::FirstWordVerification(std::string word)
 {
-    OccupiedLetter *current = first_OcLet;
-    //todo не использовать вывод в консоль в бизнес логике
-    while(current)
-    {
-        cout<<current->x<<" "<<current->y<<endl;
-        current = current->next;
-    }
-}
-
-//todo длину си-строки можно узнать методом strlen(char*), можно не передавать ее в метод
-void Field::FirstWordVerification(int size, char *word)
-{ 
-    for(int i = 0; i < size; i++)
-        for(int j = 0; j < size; j++)
-            if(field[i][j] == *"*") //todo это разименование символа?
+    for(int i = 0; i < sizeField; i++)
+        for(int j = 0; j < sizeField; j++)
+            if(field[i][j] == "*")
             {
-                if((i + 1) == size && (j + 1) == size)
+                if((i + 1) == sizeField && (j + 1) == sizeField)
                 {
-                    this->PrintFirstWord(size, word);
+                    int sizeWord = word.length();
+                    for(int i = 0; i < sizeWord; i++)
+                    {
+                        field[sizeField / 2][sizeField / 2 + i - (sizeWord / 2)] = word[i];
+                    }
+                    AddInformation(sizeField / 2 - (sizeWord / 2), sizeField / 2, sizeWord, false , word);
                 }
             }
             else
@@ -84,37 +100,33 @@ void Field::FirstWordVerification(int size, char *word)
             }
 }
 
-//todo метод добавляет только первое слово? почему нельзя все слова добавлять одним методом?
-void Field::PrintFirstWord(int size, char *word)
+bool Field::InspectionOccupiedLetter(int x, int y)
 {
-    int sizeWord = strlen(word);
-    for(int i = 0; i < sizeWord; i++)
-    {
-        field[size / 2][size / 2 + i - (sizeWord / 2)] = word[i];
-    }
-    AddInformation(size / 2 - (sizeWord / 2), size / 2, sizeWord, false , word);
+    OccupiedLetter *intersection = first_OcLet;
+
+    while(intersection)
+        if((intersection->x != x) && (intersection->y != y)
+                && (intersection->x + 1 != x) && (intersection->y + 1 != y)
+                    &&(intersection->x - 1 != x) && (intersection->y - 1 != y))
+        { intersection = intersection->next; }
+        else
+        { return false; }
+    return true;
 }
 
-void Field::PrintNextWords(char *word)
+void Field::PrintNextWords(std::string word)
 {
     Information *current = first;
-    OccupiedLetter *cur = first_OcLet;
-    int sizeWord = strlen(word);
+    int sizeWord = word.length();
 
     while (current)
     {
         for(int i = 0; i < current->length; i++)
             for(int j = 0; j < sizeWord; j++)
             {
-                if(current->word[i] == word[j] && current->word != word)
+                if(current->word[i] == word[j] && current->word != word
+                        && this->InspectionOccupiedLetter(current->x + i, current->y + j) == true)
                 {
-                    // что такое cur?
-                    while(cur)
-                        if((cur->x != current->x + i) && (cur->y != current->y + j))
-                        { cur = cur->next; }
-                        else
-                        { return; }
-                    //todo не обязательно писать == false
                     if(current->orientation == false)
                     {
                         for(int elem = 0; elem < sizeWord; elem++)
@@ -145,13 +157,94 @@ void Field::PrintNextWords(char *word)
     }
 }
 
-//todo в ядре не должно быть вывода в консоль
-void Field::PrintField(int size)
+void Field::AddCellsPlayingField()
 {
-    for(int i = 0; i < size; i++)
+    int number = 1;
+    for(Information *current = first; current; current = current->next)
     {
-        for(int j = 0; j < size; j++)
-            cout<<field[i][j];
-        cout<<endl;
+        if(current->orientation == false)
+            for(int i = 1; i < current->length; i++)
+                playingField[current->y][current->x +i] = "-";
+        else
+            for(int i = 1; i < current->length; i++)
+                playingField[current->y + i][current->x] = "|";
     }
+
+    for(OccupiedLetter *current = first_OcLet; current; current = current->next)
+        playingField[current->y][current->x] = "+";
+
+    for(Information *current = first; current; current = current->next)
+    {
+        playingField[current->y][current->x] = std::to_string(number);
+        number++;
+    }
+}
+
+bool Field::EnterTheWord(int number, std::string word)
+{
+    for(Information *current = first; current; current = current->next)
+        if(number == current->numberWord)
+            if(word == current->word)
+            {
+                if(current->orientation == false)
+                {
+                    for(int i = 0; i < current->length; i++)
+                        playingField[current->y][current->x +i] = current->word[i];
+                }
+                else
+                {
+                    for(int i = 0; i < current->length; i++)
+                        playingField[current->y + i][current->x] = current->word[i];
+                }
+                return true;
+            }
+    return false;
+}
+
+int Field::MaxXInfoField()
+{
+    int maxX = 0;
+    for(Information * current = first; current; current = current->next)
+    {
+        if(current->orientation == false)
+            if((current->x + current->length) > maxX)
+                maxX = (current->x + current->length);
+    }
+    return maxX;
+}
+
+int Field::MaxYInfoField()
+{
+    int maxY = 0;
+    for(Information *current = first; current; current = current->next)
+    {
+        if(current->orientation != false)
+            if((current->y + current->length) > maxY)
+                maxY = (current->y + current->length);
+    }
+    return maxY;
+}
+
+int Field::MinXInfoField()
+{
+    int minX = sizeField;
+    for(Information *current = first; current; current = current->next)
+    {
+        if(current->orientation == false)
+            if(current->x < minX)
+                minX = current->x;
+    }
+    return minX;
+}
+
+int Field::MinYInfoField()
+{
+    int minY = sizeField;
+    for(Information *current = first; current; current = current->next)
+    {
+        if(current->orientation != false)
+            if(current->y < minY)
+                minY = current->y;
+    }
+    return minY;
 }

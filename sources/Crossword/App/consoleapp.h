@@ -1,15 +1,13 @@
 #ifndef CONSOLEAPP_H
 #define CONSOLEAPP_H
 
+#include "field.h"
+
 #include <iostream>
 #include <string>
 #include <vector>
-//todo зачем #include <fstream>? у вас же нет работы с файлами
 #include <fstream>
 #include <cstring>
-
-//todo плохой тон использовать using namespace std
-using namespace std;
 
 class ConsoleApp
 {

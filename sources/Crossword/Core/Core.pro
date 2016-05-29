@@ -11,12 +11,14 @@ TEMPLATE = lib
 CONFIG += staticlib
 
 SOURCES += \
-    workwithvocabulary.cpp \
-    field.cpp
+    field.cpp \
+    vocabulary.cpp \
+    playingfield.cpp
 
 HEADERS += \
-    workwithvocabulary.h \
-    field.h
+    field.h \
+    vocabulary.h \
+    playingfield.h
 unix {
     target.path = /usr/lib
     INSTALLS += target

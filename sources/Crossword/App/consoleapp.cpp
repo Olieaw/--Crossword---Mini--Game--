@@ -1,77 +1,93 @@
 #include "consoleapp.h"
-#include "workwithvocabulary.h"
+#include "vocabulary.h"
 #include "field.h"
+#include "playingfield.h"
+#include "consoleplaingfield.h"
 
-//todo попробовать разбить метод на более мелкие
 void ConsoleApp::Menu()
 {
-    const int size = 20;
-    int num = 0;
-    //todo память выделяется и не очищается
-    //todo переименовать переменную
-    WorkWithVocabulary *add = new WorkWithVocabulary;
-    int number_in_menu = 0;
-    //todo не использовать сишные массивы
-    char word[size];
-    //todo while (1) не хорошо, бесконечный цикл не круто.
-    while(1){
-        cout << "1. Add word" << endl
-             << "2. Delete word" << endl
-             << "3. Insert element" <<endl
-             << "4. Crossword generation" <<endl
-             << "0. Exit" << endl
-             << "-> ";
+    Field *qwe = new Field;
 
-        //todo сделать безопасный ввод (головой кататься)
-        cin >> number_in_menu;
-        if(cin.good())
+    qwe->FirstWordVerification("qwerbt");
+    qwe->FirstWordVerification("wdfmnb");
+    qwe->FirstWordVerification("mgfrgysr");
+    qwe->FirstWordVerification("utqwf");
+    qwe->FirstWordVerification("mhgnjh");
+    qwe->FirstWordVerification("yjtlkfjbh");
+    qwe->FirstWordVerification("hfjhnnhvc");
+    qwe->FirstWordVerification("gcjgnbh");
+    qwe->PrintFieldM();
+    std::cout<<std::endl;
+    qwe->PrintInformation();
+    std::cout<<std::endl;
+    qwe->AddCellsPlayingField();
+    qwe->PrintPlayingFieldM();
+
+
+
+    /*Vocabulary *vocabulary = new Vocabulary;
+    ConsolePlaingField *consolePlaingField = new ConsolePlaingField;
+    Field *field = new Field;
+
+    vocabulary->AddWord("qwerbt");
+    vocabulary->AddWord("wdfmnb");
+    vocabulary->GenerationField();
+    field->PrintField();
+    consolePlaingField->Console();
+    field->PrintPlayingField();
+
+    std::string word, str;
+    int number_in_menu = 0;
+
+    while(1){
+        std::cout << "1. Add word" << std::endl
+                  << "2. Delete word" << std::endl
+                  << "3. Show element" <<std::endl
+                  << "4. Crossword generation" <<std::endl
+                  << "0. Exit" << std::endl
+                  << "-> ";
+
+        std::cin>>str;
+        try
         {
-            switch (number_in_menu)
-            {
-            case 0:
-                return;
-                break;
-            case 1:
-                cout<<"Print word"<<endl;
-                cin>>word;
-                add->AddLast(word);
-                num++;
-                break;
-            case 2:
-                cout<<"Print word"<<endl;
-                cin>>word;
-                    //todo не обязательно писать == true
-                if(add->Remove(word)==true)
-                    cout<<"Delete word"<<endl;
-                else
-                    cout<<"Delete is not word"<<endl;
-                break;
-            case 3:
-                cout<<"-----------------"<<endl;
-                cout<<endl;
-                add->GetAllItemInfo();
-                cout<<endl;
-                cout<<"-----------------"<<endl;
-                break;
-            case 4:
-                add->Generation(size);
-                return;
-                break;
-            default:
-                cout << "Something goes wrong!" << endl;
-                //todo зачем очищать cin от флагов?
-                cin.clear();
-                cout << endl;
-                break;
-            }
+            number_in_menu=std::stoi(str);
         }
-        else
+        catch(std::exception &error)
         {
-            cout << "Error! Input a number." << endl;
-            cin.clear();
-            cout << endl;
-            //todo рекурсия в бесконечном цикле? А вы любите рисковать!
-            Menu();
+            number_in_menu=0;
         }
-    }
+
+        switch (number_in_menu)
+        {
+        case 0:
+            return;
+            break;
+        case 1:
+            std::cout<<"Print word"<<std::endl;
+            std::cin>>word;
+            vocabulary->AddWord(word);
+            break;
+        case 2:
+            std::cout<<"Print word"<<std::endl;
+            std::cin>>word;
+            vocabulary->Remove(word);
+            break;
+        case 3:
+            std::cout<<"-----------------"<<std::endl;
+            std::cout<<std::endl;
+            vocabulary->Output();
+            std::cout<<std::endl;
+            std::cout<<"-----------------"<<std::endl;
+            break;
+        case 4:
+            vocabulary->GenerationField();
+            consolePlaingField->Console();
+            break;
+        default:
+            std::cout << "Something goes wrong!" << std::endl;
+            std::cout << std::endl;
+            break;
+        }
+
+    }*/
 }
