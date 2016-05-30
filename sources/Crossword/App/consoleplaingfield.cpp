@@ -2,15 +2,14 @@
 #include "field.h"
 #include "consoleapp.h"
 
-void ConsolePlaingField::Console()
+void ConsolePlaingField::Console(Field *field)
 {
-    Field *field = new Field;
     int number;
     std::string word;
 
     while(1)
     {
-    field->PrintPlayingField();
+    field->PrintPlayingFieldM();
     std::cout<<std::endl;
 
     field->PrintInformation();

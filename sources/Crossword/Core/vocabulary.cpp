@@ -59,7 +59,7 @@ bool Vocabulary::Remove(std::string word)
     return false;
 }
 
-void Vocabulary::GenerationField()
+Field *Vocabulary::GenerationField()
 {
     Vocabulary *vocabulary = first;
     Field *field = new Field;
@@ -68,4 +68,6 @@ void Vocabulary::GenerationField()
             field->FirstWordVerification(vocabulary->word);
             vocabulary = vocabulary->next;
         }
+    field->AddCellsPlayingField();
+    return field;
 }

@@ -1,8 +1,6 @@
 #ifndef FIELD_H
 #define FIELD_H
 
-#include "vocabulary.h"
-
 #include <iostream>
 #include <string>
 #include <string>
@@ -11,7 +9,7 @@
 class Field
 {
 protected:
-    const int sizeField = 20;
+    const int sizeField = 60;
     std::vector<std::vector<std::string>> field;
     std::vector<std::vector<std::string>> playingField;
 
@@ -62,7 +60,6 @@ public:
     void PrintField();
     void PrintFieldM();
 
-    void AddWordsIntersection();
     void AddCellsPlayingField();
     void PrintPlayingField();
     void PrintPlayingFieldM();

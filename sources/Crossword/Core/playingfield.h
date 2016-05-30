@@ -6,7 +6,7 @@
 #include <vector>
 #include <string>
 
-class PlayingField :private Field
+class PlayingField
 {
 private:
     //std::vector<std::vector<std::string>> playingField;

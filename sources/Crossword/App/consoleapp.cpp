@@ -6,7 +6,7 @@
 
 void ConsoleApp::Menu()
 {
-    Field *qwe = new Field;
+    /*Field *qwe = new Field;
 
     qwe->FirstWordVerification("qwerbt");
     qwe->FirstWordVerification("wdfmnb");
@@ -21,23 +21,16 @@ void ConsoleApp::Menu()
     qwe->PrintInformation();
     std::cout<<std::endl;
     qwe->AddCellsPlayingField();
-    qwe->PrintPlayingFieldM();
+    qwe->PrintPlayingFieldM();*/
 
 
 
-    /*Vocabulary *vocabulary = new Vocabulary;
+    Vocabulary *vocabulary = new Vocabulary;
     ConsolePlaingField *consolePlaingField = new ConsolePlaingField;
-    Field *field = new Field;
 
-    vocabulary->AddWord("qwerbt");
-    vocabulary->AddWord("wdfmnb");
-    vocabulary->GenerationField();
-    field->PrintField();
-    consolePlaingField->Console();
-    field->PrintPlayingField();
 
     std::string word, str;
-    int number_in_menu = 0;
+    int number = 0;
 
     while(1){
         std::cout << "1. Add word" << std::endl
@@ -50,17 +43,18 @@ void ConsoleApp::Menu()
         std::cin>>str;
         try
         {
-            number_in_menu=std::stoi(str);
+            number=std::stoi(str);
         }
         catch(std::exception &error)
         {
-            number_in_menu=0;
+            number=0;
         }
 
-        switch (number_in_menu)
+        switch (number)
         {
         case 0:
             return;
+            std::exit(0);
             break;
         case 1:
             std::cout<<"Print word"<<std::endl;
@@ -80,14 +74,14 @@ void ConsoleApp::Menu()
             std::cout<<"-----------------"<<std::endl;
             break;
         case 4:
-            vocabulary->GenerationField();
-            consolePlaingField->Console();
+            consolePlaingField->Console(vocabulary->GenerationField());
             break;
         default:
-            std::cout << "Something goes wrong!" << std::endl;
-            std::cout << std::endl;
+            std::cout<<"Invalid number! Try again"<<std::endl;
+            std::cin.clear();
+            getline(std::cin,str);
             break;
         }
 
-    }*/
+    }
 }

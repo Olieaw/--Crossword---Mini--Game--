@@ -7,8 +7,9 @@
 #include <string>
 #include <cstring>
 
-class Vocabulary
+class Vocabulary:private Field
 {
+protected:
     std::string word;
     Vocabulary *next;
     Vocabulary(std::string word_, Vocabulary *next_ = nullptr):word(word_), next(next_){}
@@ -28,7 +29,7 @@ public:
     void AddWord(std::string word);
     bool Remove(std::string word);
     void Output();
-    void GenerationField();
+    Field *GenerationField();
 };
 
 #endif // VOCABULARY_H
