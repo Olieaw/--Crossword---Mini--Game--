@@ -12,13 +12,11 @@ CONFIG += staticlib
 
 SOURCES += \
     field.cpp \
-    vocabulary.cpp \
-    playingfield.cpp
+    vocabulary.cpp
 
 HEADERS += \
     field.h \
-    vocabulary.h \
-    playingfield.h
+    vocabulary.h
 unix {
     target.path = /usr/lib
     INSTALLS += target
