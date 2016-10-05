@@ -1,10 +1,6 @@
 TEMPLATE = subdirs
 
-App.depends = Core
-
 SUBDIRS += \
-    App \
-    Core \
-    Test
-
-
+    app \
+    core \
+    gui

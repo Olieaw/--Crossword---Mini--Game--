@@ -1,32 +1,15 @@
-#include "consoleapp.h"
-#include "vocabulary.h"
-#include "field.h"
-#include "playingfield.h"
-#include "consoleplaingfield.h"
+#include "console.h"
 
-void ConsoleApp::Menu()
+Console::Console()
 {
-    /*Field *qwe = new Field;
 
-    qwe->FirstWordVerification("qwerbt");
-    qwe->FirstWordVerification("wdfmnb");
-    qwe->FirstWordVerification("mgfrgysr");
-    qwe->FirstWordVerification("utqwf");
-    qwe->FirstWordVerification("mhgnjh");
-    qwe->FirstWordVerification("yjtlkfjbh");
-    qwe->FirstWordVerification("hfjhnnhvc");
-    qwe->FirstWordVerification("gcjgnbh");
-    qwe->PrintFieldM();
-    std::cout<<std::endl;
-    qwe->PrintInformation();
-    std::cout<<std::endl;
-    qwe->AddCellsPlayingField();
-    qwe->PrintPlayingFieldM();*/
+}
 
+void Console::Menu()
+{
 
-
-    Vocabulary *vocabulary = new Vocabulary;
-    ConsolePlaingField *consolePlaingField = new ConsolePlaingField;
+    Vocalbulary *vocabulary = new Vocalbulary();
+    Field *field = new Field();
 
 
     std::string word, str;
@@ -47,7 +30,7 @@ void ConsoleApp::Menu()
         }
         catch(std::exception &error)
         {
-            number=0;
+            number=100;
         }
 
         switch (number)
@@ -64,17 +47,17 @@ void ConsoleApp::Menu()
         case 2:
             std::cout<<"Print word"<<std::endl;
             std::cin>>word;
-            vocabulary->Remove(word);
+            vocabulary->DelWord(word);
             break;
         case 3:
             std::cout<<"-----------------"<<std::endl;
             std::cout<<std::endl;
-            vocabulary->Output();
+            PrintWords(vocabulary->Output());
             std::cout<<std::endl;
             std::cout<<"-----------------"<<std::endl;
             break;
         case 4:
-            consolePlaingField->Console(vocabulary->GenerationField());
+            PrintField(field->Generation(vocabulary->Output()));
             break;
         default:
             std::cout<<"Invalid number! Try again"<<std::endl;
@@ -83,5 +66,22 @@ void ConsoleApp::Menu()
             break;
         }
 
+    }
+}
+
+void Console::PrintWords(std::vector<std::string> str)
+{
+    for(std::vector<std::string>::iterator it = str.begin(); it<str.end(); ++it)
+        std::cout<<*it<<std::endl;
+}
+
+void Console::PrintField(std::vector<std::vector<std::string>> field)
+{
+    int sizeField = field.size();
+    for(int i = 0; i < sizeField; i++)
+    {
+        for(int j = 0; j < sizeField; j++)
+            std::cout<<field[i][j]<<" ";
+        std::cout<<std::endl;
     }
 }

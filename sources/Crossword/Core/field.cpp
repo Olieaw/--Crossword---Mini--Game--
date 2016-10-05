@@ -1,214 +1,118 @@
 #include "field.h"
-#include "vocabulary.h"
 
 Field::Field()
 {
-    sizeInfo = 0;
-    first = last = nullptr;
-    first_OcLet = last_OcLet = nullptr;
-
     field.resize(sizeField);
     for(int i = 0; i < sizeField; i++)
     {
         field[i].resize(sizeField);
         for(int j = 0; j < sizeField; j++)
-            field[i][j] = "*";
-    }
-
-    playingField.resize(sizeField);
-    for(int i = 0; i < sizeField; i++)
-    {
-        playingField[i].resize(sizeField);
-        for(int j = 0; j < sizeField; j++)
-            playingField[i][j] = "*";
+            field[i][j] = " ";
     }
 }
 
 Field::~Field()
 {
-    Information *currentInf = nullptr;
-    Information *nextInf = first;
-    while(nextInf)
-    {
-        currentInf = nextInf;
-        nextInf =nextInf->next;
-        delete currentInf;
-    }
-
-    OccupiedLetter *currentOcLet = nullptr;
-    OccupiedLetter *nextOcLet = first_OcLet;
-    while(currentOcLet)
-    {
-        currentOcLet = nextOcLet;
-        nextOcLet =nextOcLet->next;
-        delete currentOcLet;
-    }
-
     field.clear();
-    playingField.clear();
+    InformationAboutWordVector.clear();
+    OccupiedLetterVector.clear();
 }
 
-void Field::AddInformation(int x, int y, int length, bool orientation, std::string word)
+void Field::AddInformationAboutWord(int x, int y, int length, bool orientation, std::string word)
 {
-    sizeInfo++;
-    Information *newItem = new Information(x, y, length, word, sizeInfo, orientation);
-    if (!last)
-    {
-        first = newItem;
-    }
-    else
-    {
-        last->next = newItem;
-    }
-    last = newItem;
+    InformationAboutWordVector.push_back(InformationAboutWord(x, y,length, word, orientation));
 }
 
 void Field::AddOccupiedLetter(int x, int y)
 {
-    OccupiedLetter *newItem = new OccupiedLetter(x, y);
-    if(!last_OcLet)
+    OccupiedLetterVector.push_back(OccupiedLetter(x, y));
+}
+
+void Field::AddAWordOnTheField(std::string word)
+{
+    int sizeWord = word.length();
+    if(InformationAboutWordVector.size() == 0)
     {
-        first_OcLet = newItem;
+        for(int i = 0; i < sizeWord; i++)
+        {
+            field[sizeField / 2][sizeField / 2 + i - (sizeWord / 2)] = word[i];
+        }
+        AddInformationAboutWord(sizeField / 2 - (sizeWord / 2), sizeField / 2, sizeWord, false , word);
     }
     else
     {
-        last_OcLet->next = newItem;
-    }
-    last_OcLet = newItem;
-}
-
-void Field::FirstWordVerification(std::string word)
-{
-    for(int i = 0; i < sizeField; i++)
-        for(int j = 0; j < sizeField; j++)
-            if(field[i][j] == "*")
-            {
-                if((i + 1) == sizeField && (j + 1) == sizeField)
+        for(std::vector<InformationAboutWord>::iterator infAboutWord = InformationAboutWordVector.begin(); infAboutWord<InformationAboutWordVector.end(); ++infAboutWord)
+        {
+            for(int i = 0; i < infAboutWord->length; i++)
+                for(int j = 0; j < sizeWord; j++)
                 {
-                    int sizeWord = word.length();
-                    for(int i = 0; i < sizeWord; i++)
+                    if(infAboutWord->word[i] == word[j] && infAboutWord->word != word
+                            && this->InspectionOccupiedLetter(infAboutWord->x + i, infAboutWord->y + j) == true)
                     {
-                        field[sizeField / 2][sizeField / 2 + i - (sizeWord / 2)] = word[i];
+                        if(infAboutWord->orientation == false)
+                        {
+                            for(int elem = 0; elem < sizeWord; elem++)
+                            {
+                                field[infAboutWord->y - j +elem][infAboutWord->x + i] = word[elem];
+                            }
+
+                            AddInformationAboutWord(infAboutWord->x + i, infAboutWord->y - j, sizeWord, true, word);
+                            AddOccupiedLetter(infAboutWord->x + i, infAboutWord->y);
+
+                        }
+                        else
+                        {
+                            for(int elem = 0; elem < sizeWord; elem++)
+                            {
+                                field[infAboutWord->y + i][infAboutWord->x - j + elem] = word[elem];
+                            }
+
+                            AddInformationAboutWord(infAboutWord->x - j, infAboutWord->y + i, sizeWord, false, word);
+                            AddOccupiedLetter(infAboutWord->x, infAboutWord->y + i);
+
+                        }
+                        return;
                     }
-                    AddInformation(sizeField / 2 - (sizeWord / 2), sizeField / 2, sizeWord, false , word);
                 }
-            }
-            else
-            {
-                this->PrintNextWords(word);
-                return;
-            }
+        }
+        return;
+    }
 }
 
 bool Field::InspectionOccupiedLetter(int x, int y)
 {
-    OccupiedLetter *intersection = first_OcLet;
+    std::vector<OccupiedLetter>::iterator intersection = OccupiedLetterVector.begin();
 
-    while(intersection)
+    while(intersection < OccupiedLetterVector.end())
         if((intersection->x != x) && (intersection->y != y)
                 && (intersection->x + 1 != x) && (intersection->y + 1 != y)
                     &&(intersection->x - 1 != x) && (intersection->y - 1 != y))
-        { intersection = intersection->next; }
+        { intersection++; }
         else
         { return false; }
     return true;
 }
 
-void Field::PrintNextWords(std::string word)
+std::vector<std::vector<std::string>> Field::Generation(std::vector<std::string> words)
 {
-    Information *current = first;
-    int sizeWord = word.length();
-
-    while (current)
-    {
-        for(int i = 0; i < current->length; i++)
-            for(int j = 0; j < sizeWord; j++)
-            {
-                if(current->word[i] == word[j] && current->word != word
-                        && this->InspectionOccupiedLetter(current->x + i, current->y + j) == true)
-                {
-                    if(current->orientation == false)
-                    {
-                        for(int elem = 0; elem < sizeWord; elem++)
-                        {
-                            field[current->y - j +elem][current->x + i] = word[elem];
-                        }
-
-                        AddInformation(current->x + i, current->y - j, sizeWord, true, word);
-                        AddOccupiedLetter(current->x + i, current->y);
-
-                    }
-                    else
-                    {
-                        for(int elem = 0; elem < sizeWord; elem++)
-                        {
-                            field[current->y + i][current->x - j + elem] = word[elem];
-                        }
-
-                        AddInformation(current->x - j, current->y + i, sizeWord, false, word);
-                        AddOccupiedLetter(current->x, current->y + i);
-
-                    }
-                    return;
-
-                }
-            }
-        current = current->next;
-    }
+    for(std::vector<std::string>::iterator it = words.begin(); it<words.end(); ++it)
+        this->AddAWordOnTheField(*it);
+    return field;
 }
 
-void Field::AddCellsPlayingField()
+std::vector<std::vector<std::string>> Field::OutputField()
 {
-    int number = 1;
-    for(Information *current = first; current; current = current->next)
-    {
-        if(current->orientation == false)
-            for(int i = 1; i < current->length; i++)
-                playingField[current->y][current->x +i] = "-";
-        else
-            for(int i = 1; i < current->length; i++)
-                playingField[current->y + i][current->x] = "|";
-    }
-
-    for(OccupiedLetter *current = first_OcLet; current; current = current->next)
-        playingField[current->y][current->x] = "+";
-
-    for(Information *current = first; current; current = current->next)
-    {
-        playingField[current->y][current->x] = std::to_string(number);
-        number++;
-    }
+    return field;
 }
 
-bool Field::EnterTheWord(int number, std::string word)
-{
-    for(Information *current = first; current; current = current->next)
-        if(number == current->numberWord)
-            if(word == current->word)
-            {
-                if(current->orientation == false)
-                {
-                    for(int i = 0; i < current->length; i++)
-                        playingField[current->y][current->x +i] = current->word[i];
-                }
-                else
-                {
-                    for(int i = 0; i < current->length; i++)
-                        playingField[current->y + i][current->x] = current->word[i];
-                }
-                return true;
-            }
-    return false;
-}
-
-int Field::MaxXInfoField()
+/*int Field::MaxXInfoField()
 {
     int maxX = 0;
-    for(Information * current = first; current; current = current->next)
+    for(std::vector<InformationAboutWord>::iterator infAboutWord = InformationAboutWordVector.begin(); infAboutWord<InformationAboutWordVector.end(); ++infAboutWord)
     {
-        if(current->orientation == false)
-            if((current->x + current->length) > maxX)
-                maxX = (current->x + current->length);
+        if(infAboutWord->orientation == false)
+            if((infAboutWord->x + infAboutWord->length) > maxX)
+                maxX = (infAboutWord->x + infAboutWord->length);
     }
     return maxX;
 }
@@ -216,11 +120,11 @@ int Field::MaxXInfoField()
 int Field::MaxYInfoField()
 {
     int maxY = 0;
-    for(Information *current = first; current; current = current->next)
+    for(std::vector<InformationAboutWord>::iterator infAboutWord = InformationAboutWordVector.begin(); infAboutWord<InformationAboutWordVector.end(); ++infAboutWord)
     {
-        if(current->orientation != false)
-            if((current->y + current->length) > maxY)
-                maxY = (current->y + current->length);
+        if(infAboutWord->orientation != false)
+            if((infAboutWord->y + infAboutWord->length) > maxY)
+                maxY = (infAboutWord->y + infAboutWord->length);
     }
     return maxY;
 }
@@ -228,11 +132,11 @@ int Field::MaxYInfoField()
 int Field::MinXInfoField()
 {
     int minX = sizeField;
-    for(Information *current = first; current; current = current->next)
+    for(std::vector<InformationAboutWord>::iterator infAboutWord = InformationAboutWordVector.begin(); infAboutWord<InformationAboutWordVector.end(); ++infAboutWord)
     {
-        if(current->orientation == false)
-            if(current->x < minX)
-                minX = current->x;
+        if(infAboutWord->orientation == false)
+            if(infAboutWord->x < minX)
+                minX = infAboutWord->x;
     }
     return minX;
 }
@@ -240,11 +144,11 @@ int Field::MinXInfoField()
 int Field::MinYInfoField()
 {
     int minY = sizeField;
-    for(Information *current = first; current; current = current->next)
+    for(std::vector<InformationAboutWord>::iterator infAboutWord = InformationAboutWordVector.begin(); infAboutWord<InformationAboutWordVector.end(); ++infAboutWord)
     {
-        if(current->orientation != false)
-            if(current->y < minY)
-                minY = current->y;
+        if(infAboutWord->orientation != false)
+            if(infAboutWord->y < minY)
+                minY = infAboutWord->y;
     }
     return minY;
-}
+}*/

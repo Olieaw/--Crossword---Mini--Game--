@@ -1,74 +1,55 @@
 #ifndef FIELD_H
 #define FIELD_H
 
-#include <iostream>
-#include <string>
 #include <string>
 #include <vector>
+#include <iostream>
 
-class Field
+#include "vocalbulary.h"
+
+
+class Field: public Vocalbulary
 {
 protected:
-    const int sizeField = 60;
-    std::vector<std::vector<std::string>> field;
-    std::vector<std::vector<std::string>> playingField;
+    const int sizeField = 20;
 
-    struct Information
+    struct InformationAboutWord
     {
         int x,y;
         int length;
         std::string word;
-        int numberWord;
         bool orientation;
 
-        Information *next;
-
-        Information(int x_, int y_, int length_, std::string word_, int numerWord_, bool orientation_ = false, Information *next_ = nullptr):
-        x(x_), y(y_), length(length_),word(word_), numberWord(numerWord_), orientation(orientation_), next(next_){}
-
+        InformationAboutWord(int x_, int y_, int length_, std::string word_, bool orientation_ = false):
+        x(x_), y(y_), length(length_),word(word_), orientation(orientation_){}
     };
-
-    int sizeInfo;
-    Information *first;
-    Information *last;
 
     struct OccupiedLetter
     {
         int x, y;
-        OccupiedLetter *next;
-        OccupiedLetter(int x_, int y_, OccupiedLetter *next_ = nullptr): x(x_), y(y_), next(next_){}
+        OccupiedLetter(int x_, int y_): x(x_), y(y_){}
     };
 
-    OccupiedLetter *first_OcLet;
-    OccupiedLetter *last_OcLet;
-
+    std::vector<std::vector<std::string>> field;
+    std::vector<InformationAboutWord> InformationAboutWordVector;
+    std::vector<OccupiedLetter> OccupiedLetterVector;
 public:
     Field();
     ~Field();
 
-    void AddInformation(int x, int y, int length, bool orientation, std::string word);
-    void PrintInformation();
-    void GetAllItemInfo();
+    void AddAWordOnTheField(std::string word);
 
+    void AddInformationAboutWord(int x, int y, int length, bool orientation, std::string word);
     void AddOccupiedLetter(int x, int y);
-    void InfoOccupiedLetter();
-
-    void FirstWordVerification(std::string word);
-    void PrintNextWords(std::string word);
     bool InspectionOccupiedLetter(int x, int y);
-    bool WrongIntersection(int x, int y, std::string word, bool orientation);
-    void PrintField();
-    void PrintFieldM();
+    std::vector<std::vector<std::string>> Generation(std::vector<std::string> words);
+    std::vector<std::vector<std::string>> OutputField();
 
-    void AddCellsPlayingField();
-    void PrintPlayingField();
-    void PrintPlayingFieldM();
-    bool EnterTheWord(int number, std::string word);
+//    int MaxXInfoField();
+//    int MaxYInfoField();
+//    int MinXInfoField();
+//    int MinYInfoField();
 
-    int MaxXInfoField();
-    int MaxYInfoField();
-    int MinXInfoField();
-    int MinYInfoField();
 };
 
 #endif // FIELD_H

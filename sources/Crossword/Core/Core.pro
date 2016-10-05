@@ -1,22 +1,20 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2016-04-07T16:58:37
+# Project created by QtCreator 2016-10-05T14:19:24
 #
 #-------------------------------------------------
 
 QT       -= core gui
 
-TARGET = Core
+TARGET = core
 TEMPLATE = lib
 CONFIG += staticlib
 
-SOURCES += \
-    field.cpp \
-    vocabulary.cpp
+SOURCES += vocalbulary.cpp \
+    field.cpp
 
-HEADERS += \
-    field.h \
-    vocabulary.h
+HEADERS += vocalbulary.h \
+    field.h
 unix {
     target.path = /usr/lib
     INSTALLS += target
